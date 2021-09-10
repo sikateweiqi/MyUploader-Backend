@@ -30,7 +30,7 @@ public class BigFileUploadController {
         if (chunks != null && chunks != 0) {
             fileService.uploadWithBlock(name, md5,size,chunks,chunk,file);
         } else {
-            fileService.upload(name, md5,file);
+            fileService.upload(md5,file);
         }
     }
 }

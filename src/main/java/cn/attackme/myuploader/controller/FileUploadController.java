@@ -24,6 +24,6 @@ public class FileUploadController {
     public void upload(String name,
                        String md5,
                        MultipartFile file) throws IOException {
-        fileService.upload(name, md5,file);
+        fileService.upload(md5,file);
     }
 }
