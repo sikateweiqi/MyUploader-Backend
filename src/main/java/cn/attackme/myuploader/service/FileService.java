@@ -3,13 +3,19 @@ package cn.attackme.myuploader.service;
 import cn.attackme.myuploader.config.UploadConfig;
 import cn.attackme.myuploader.dao.FileDao;
 import cn.attackme.myuploader.model.File;
+import cn.attackme.myuploader.model.excltemplate.ExclTemplateDemo;
+import cn.attackme.myuploader.model.excltemplate.SlrEmpSalary;
 import cn.attackme.myuploader.utils.FileUtils;
+import cn.attackme.myuploader.utils.excel.ExcelUtils;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
+import java.io.OutputStream;
+import java.util.*;
 
 import static cn.attackme.myuploader.utils.FileUtils.generateFileName;
 import static cn.attackme.myuploader.utils.UploadUtils.*;
@@ -33,6 +39,31 @@ public class FileService {
         String path = UploadConfig.path + generateFileName();
         String fileName = file.getOriginalFilename();
         FileUtils.write(path, file.getInputStream());
+        try {
+            List< SlrEmpSalary> empSalaryList =
+                    (List< SlrEmpSalary>)ExcelUtils.parseExcelToList(file.getInputStream(),  SlrEmpSalary.class);            System.out.println(new Gson().toJson(empSalaryList));
+
+//            OutputStream outputStream = null;
+//            java.io.File f = new java.io.File("test.xlsx");
+//            outputStream = new FileOutputStream(f);
+//
+//
+//            //导出数据
+//            List<SlrEmpSalary> dataList = new ArrayList<SlrEmpSalary>();
+//            SlrEmpSalary model = new SlrEmpSalary();
+//            model.setSeqNumber(1);
+//            model.setEmployeeCode("a");
+//            model.setEmployeeName("cao");
+//            dataList.add(model);
+//
+//            Map<Integer,Map<String,String>> select = new HashMap<>();
+//            //导出
+//            ExcelUtils.exportExcel(outputStream, dataList,  SlrEmpSalary.class, null, "test");
+//
+//            System.out.println(outputStream.toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         fileDao.save(new File(fileName, md5, path, new Date()));
     }
 
